@@ -72,19 +72,6 @@ Un script en Python conectado a la **GA4 Data API** via OAuth con la cuenta auto
 
 ---
 
-## Stack
-
-| Herramienta | Uso |
-|---|---|
-| Python + Playwright | Scraping del catálogo |
-| BeautifulSoup | Parsing del HTML |
-| SQLite | Base de datos local |
-| Google Analytics Data API | Extracción de datos GA4 |
-| Chart.js | Visualizaciones |
-| GitHub Pages | Hosting del dashboard |
-
----
-
 ## Próximos pasos
 
 Todo esto se construyó **sin acceso al ERP** — solo con datos públicos del sitio y Analytics.  
