@@ -1,0 +1,25 @@
+# Datos reales (privados)
+data/products.json
+data/analytics_data.json
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Temporales
+tmp/
+temp/
+
+#OLD
+OLD/

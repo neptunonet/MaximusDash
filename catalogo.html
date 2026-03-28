@@ -1,94 +1,21 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maximus Gaming · Análisis de Catálogo</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#080b0f;--s1:#0d1117;--s2:#111820;
-  --border:rgba(255,255,255,.07);
-  --accent:#00ff88;--accent2:#ff3d5a;--accent3:#ffd60a;--blue:#3d9eff;
-  --text:#dde3ed;--muted:#4a5568;
-  --mono:'Barlow Condensed',sans-serif;--body:'Barlow',sans-serif;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--bg);color:var(--text);font-family:var(--body);min-height:100vh;overflow-x:hidden}
-body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.025) 2px,rgba(0,0,0,.025) 4px);pointer-events:none;z-index:999}
-
-/* HEADER */
-header{background:linear-gradient(180deg,#0a1628 0%,var(--bg) 100%);border-bottom:1px solid var(--border);padding:28px 48px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;position:relative;overflow:hidden}
-header::before{content:'';position:absolute;top:-80px;left:-80px;width:360px;height:360px;background:radial-gradient(circle,rgba(0,255,136,.07) 0%,transparent 65%);pointer-events:none}
-.logo{font-family:var(--mono);font-size:28px;font-weight:800;letter-spacing:2px;text-transform:uppercase}
-.logo em{color:var(--accent);font-style:normal}
-.logo span{display:block;font-size:11px;font-weight:400;letter-spacing:4px;color:var(--muted);margin-top:4px}
-.hstats{display:flex;gap:32px;flex-wrap:wrap}
-.hs{text-align:center}
-.hs-v{font-family:var(--mono);font-size:34px;font-weight:800;line-height:1}
-.hs-l{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-top:4px}
-.pill-live{display:inline-flex;align-items:center;gap:6px;font-size:11px;letter-spacing:1px;color:var(--accent);border:1px solid rgba(0,255,136,.3);padding:5px 14px;border-radius:20px;font-family:var(--mono)}
-.pill-live::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 1.5s ease-in-out infinite}
-@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.6)}}
-
-/* FILTROS */
-.fbar{padding:14px 48px;border-bottom:1px solid var(--border);display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:var(--s1)}
-.flbl{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-right:4px;font-family:var(--mono)}
-.fbtn{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.5px;padding:5px 14px;border-radius:3px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;text-transform:uppercase}
-.fbtn:hover{border-color:var(--accent);color:var(--accent)}
-.fbtn.active{background:var(--accent);border-color:var(--accent);color:#000}
-
-/* MAIN */
-main{padding:28px 48px;display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
-
-/* CARD */
-.card{background:var(--s1);border:1px solid var(--border);border-radius:4px;padding:22px;position:relative;overflow:hidden;transition:border-color .2s;animation:fu .4s ease both}
-.card:hover{border-color:rgba(0,255,136,.18)}
-.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--al, var(--accent))}
-.card.red{--al:var(--accent2)}.card.yellow{--al:var(--accent3)}.card.blue{--al:var(--blue)}.card.dim{--al:var(--muted)}
-@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-.card:nth-child(1){animation-delay:.04s}.card:nth-child(2){animation-delay:.08s}.card:nth-child(3){animation-delay:.12s}.card:nth-child(4){animation-delay:.16s}.card:nth-child(5){animation-delay:.20s}.card:nth-child(6){animation-delay:.24s}.card:nth-child(7){animation-delay:.28s}.card:nth-child(8){animation-delay:.32s}.card:nth-child(9){animation-delay:.36s}.card:nth-child(10){animation-delay:.40s}
-
-.ctitle{font-family:var(--mono);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--muted);margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
-.ctitle b{font-weight:400;font-size:10px}
-
-/* KPI ROW */
-.krow{grid-column:1/-1;display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
-@media(max-width:1000px){.krow{grid-template-columns:repeat(2,1fr)}}
-.kv{font-family:var(--mono);font-size:36px;font-weight:800;letter-spacing:-1px;line-height:1;margin-bottom:5px}
-.ks{font-size:12px;color:var(--muted)}
-.card.green .kv{color:var(--accent)}.card.red .kv{color:var(--accent2)}.card.yellow .kv{color:var(--accent3)}.card.blue .kv{color:var(--blue)}.card.dim .kv{color:#888}
-
-/* GRID COLS */
-.c12{grid-column:1/-1}.c8{grid-column:span 8}.c7{grid-column:span 7}.c6{grid-column:span 6}.c5{grid-column:span 5}.c4{grid-column:span 4}
-@media(max-width:1100px){.c8,.c7,.c6,.c5,.c4{grid-column:1/-1}}
-canvas{max-height:260px}
-
-/* ALERTAS */
-
-/* TABLA */
-.tw{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:13px}
-thead th{font-family:var(--mono);font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);padding:7px 11px;border-bottom:1px solid var(--border);text-align:left;white-space:nowrap}
-tbody tr{border-bottom:1px solid rgba(255,255,255,.03);transition:background .12s}
-tbody tr:hover{background:rgba(0,255,136,.04)}
-tbody td{padding:8px 11px;vertical-align:middle}
-.tm{font-family:var(--mono);font-size:12px}
-.tag{display:inline-block;padding:2px 7px;border-radius:2px;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
-.tg{background:rgba(0,255,136,.1);color:var(--accent)}.tr{background:rgba(255,61,90,.1);color:var(--accent2)}.ty{background:rgba(255,214,10,.1);color:var(--accent3)}.tb{background:rgba(61,158,255,.1);color:var(--blue)}.td{background:rgba(255,255,255,.05);color:#888}
-
-/* MINI BARS */
-.mb{display:flex;align-items:center;gap:10px;margin-bottom:9px}
-.mb-l{font-size:12px;width:140px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mb-t{flex:1;height:5px;background:var(--border);border-radius:2px;overflow:hidden}
-.mb-f{height:100%;border-radius:2px;transition:width 1.2s cubic-bezier(.4,0,.2,1)}
-.mb-v{font-family:var(--mono);font-size:11px;color:var(--muted);width:56px;text-align:right;flex-shrink:0}
-
-footer{text-align:center;padding:22px;color:var(--muted);font-size:11px;font-family:var(--mono);letter-spacing:1px;border-top:1px solid var(--border)}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maximus Gaming · Análisis de Catálogo</title>
+  
+  <!-- Fuentes -->
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+  
+  <!-- CSS Global -->
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <!-- Chart.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </head>
 <body>
+
 <header>
   <div class="logo">MAXIMUS<em>.COM.AR</em><span>Análisis de Catálogo · <span id="sd">—</span></span></div>
   <div class="hstats">
@@ -99,202 +26,102 @@ footer{text-align:center;padding:22px;color:var(--muted);font-size:11px;font-fam
   <div class="pill-live" id="plive">CARGANDO…</div>
 </header>
 
-<div class="fbar" style="gap:8px">
-  <a href="index.html" style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.5px;padding:5px 14px;border-radius:3px;border:1px solid rgba(255,255,255,.07);background:transparent;color:#4a5568;cursor:pointer;transition:all .15s;text-transform:uppercase;text-decoration:none">🏠 Inicio</a>
-  <a href="catalogo.html" style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.5px;padding:5px 14px;border-radius:3px;border:1px solid #00ff88;background:#00ff88;color:#000;text-transform:uppercase;text-decoration:none">📦 Catálogo</a>
-  <a href="analytics.html" style="font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.5px;padding:5px 14px;border-radius:3px;border:1px solid rgba(255,255,255,.07);background:transparent;color:#4a5568;cursor:pointer;transition:all .15s;text-transform:uppercase;text-decoration:none">📊 Analytics</a>
+<nav class="nav">
+  <a href="index.html" class="nav-link">🏠 Inicio</a>
+  <a href="catalogo.html" class="nav-link active">📦 Catálogo</a>
+  <a href="analytics.html" class="nav-link">📊 Analytics</a>
+</nav>
+
+<div class="fbar">
+  <span class="flbl">Categoría →</span>
+  <button class="fbtn active" data-cat="all">Todas</button>
 </div>
-<div class="fbar"><span class="flbl">Categoría →</span><button class="fbtn active" data-cat="all">Todas</button></div>
 
 <main>
+  <!-- KPIs -->
   <div class="krow">
-    <div class="card green"><div class="ctitle">Total Productos</div><div class="kv" id="k1">—</div><div class="ks" id="k1s">—</div></div>
-    <div class="card blue"><div class="ctitle">Precio Promedio</div><div class="kv" id="k2">—</div><div class="ks">con precio válido</div></div>
-    <div class="card yellow"><div class="ctitle">Precio Más Alto</div><div class="kv" id="k3">—</div><div class="ks" id="k3s">—</div></div>
-    <div class="card dim"><div class="ctitle">Marcas Distintas</div><div class="kv" id="k5">—</div><div class="ks" id="k5s">—</div></div>
+    <div class="card green">
+      <div class="ctitle">Total Productos</div>
+      <div class="kv" id="k1">—</div>
+      <div class="ks" id="k1s">—</div>
+    </div>
+    <div class="card blue">
+      <div class="ctitle">Precio Promedio</div>
+      <div class="kv" id="k2">—</div>
+      <div class="ks">con precio válido</div>
+    </div>
+    <div class="card yellow">
+      <div class="ctitle">Precio Más Alto</div>
+      <div class="kv" id="k3">—</div>
+      <div class="ks" id="k3s">—</div>
+    </div>
+    <div class="card dim">
+      <div class="ctitle">Marcas Distintas</div>
+      <div class="kv" id="k5">—</div>
+      <div class="ks" id="k5s">—</div>
+    </div>
   </div>
 
+  <!-- Charts -->
+  <div class="card c7">
+    <div class="ctitle">Productos por Categoría <b id="lc"></b></div>
+    <canvas id="cCat"></canvas>
+  </div>
+  
+  <div class="card c5 dim">
+    <div class="ctitle">Estado de Stock</div>
+    <canvas id="cStock" style="max-height:240px"></canvas>
   </div>
 
-  <div class="card c7"><div class="ctitle">Productos por Categoría <b id="lc"></b></div><canvas id="cCat"></canvas></div>
-  <div class="card c5 dim"><div class="ctitle">Estado de Stock</div><canvas id="cStock" style="max-height:240px"></canvas></div>
+  <div class="card c5">
+    <div class="ctitle">Top 12 Marcas <b id="lm"></b></div>
+    <canvas id="cMarcas"></canvas>
+  </div>
+  
+  <div class="card c7 blue">
+    <div class="ctitle">Ticket Promedio por Categoría <b>$ARS</b></div>
+    <canvas id="cAvg"></canvas>
+  </div>
 
-  <div class="card c5"><div class="ctitle">Top 12 Marcas <b id="lm"></b></div><canvas id="cMarcas"></canvas></div>
-  <div class="card c7 blue"><div class="ctitle">Ticket Promedio por Categoría <b>$ARS</b></div><canvas id="cAvg"></canvas></div>
+  <div class="card c6 yellow">
+    <div class="ctitle">Distribución de Precios</div>
+    <canvas id="cHisto"></canvas>
+  </div>
+  
+  <div class="card c6">
+    <div class="ctitle">Ticket Promedio por Marca <b>top 12</b></div>
+    <div id="mbar"></div>
+  </div>
 
-  <div class="card c6 yellow"><div class="ctitle">Distribución de Precios</div><canvas id="cHisto"></canvas></div>
-  <div class="card c6"><div class="ctitle">Ticket Promedio por Marca <b>top 12</b></div><div id="mbar"></div></div>
-
+  <!-- Tabla de productos -->
   <div class="card c12">
     <div class="ctitle">Top 25 · Mayor Precio <b id="ltbl">todas las categorías</b></div>
-    <div class="tw"><table>
-      <thead><tr><th>#</th><th>Producto</th><th>Categoría</th><th>Marca</th><th>Precio</th><th>Código</th><th>Stock</th><th>Garantía</th></tr></thead>
-      <tbody id="tbl"></tbody>
-    </table></div>
+    <div class="tw">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Producto</th>
+            <th>Categoría</th>
+            <th>Marca</th>
+            <th>Precio</th>
+            <th>Código</th>
+            <th>Stock</th>
+            <th>Garantía</th>
+          </tr>
+        </thead>
+        <tbody id="tbl"></tbody>
+      </table>
+    </div>
   </div>
 </main>
 
-<footer>MAXIMUS.COM.AR · Análisis de Catálogo · Scraping de datos públicos · <span id="fts"></span></footer>
+<footer>
+  MAXIMUS.COM.AR · Análisis de Catálogo · Scraping de datos públicos · <span id="fts"></span>
+</footer>
 
-<script>
-Chart.defaults.color='#4a5568';
-Chart.defaults.font.family="'Barlow',sans-serif";
-Chart.defaults.borderColor='rgba(255,255,255,.05)';
+<!-- JavaScript -->
+<script src="js/catalogo.js"></script>
 
-const P=['#00ff88','#3d9eff','#ffd60a','#ff3d5a','#a78bfa','#fb923c','#34d399','#f472b6','#60a5fa','#facc15','#4ade80','#e879f9','#38bdf8','#f87171','#c084fc'];
-let DATA=[],ACT='all',CH={};
-
-async function load(){
-  try{
-    const r=await fetch('./products.json');
-    if(!r.ok) throw 0;
-    const j=await r.json();
-    DATA=Array.isArray(j)?j:(j.products||[]);
-    document.getElementById('plive').textContent='DATOS REALES';
-    if(DATA[0]?.scrape_ts){
-      const d=new Date(DATA[0].scrape_ts);
-      document.getElementById('sd').textContent=d.toLocaleDateString('es-AR');
-      document.getElementById('fts').textContent=d.toLocaleString('es-AR');
-    }
-  }catch(e){
-    DATA=[
-      {categoria_nombre:'Microprocesadores',nombre:'Micro Amd Ryzen 9 9950x 5.7 Ghz Am5',precio:1061300,stock:'STOCK ALTO EN LA WEB',marca:'AMD',codigo:'100-100001277WOF',garantia:'180 días'},
-      {categoria_nombre:'Placas de Video',nombre:'Placa de Video Msi Rtx 5090 32gb Gddr7',precio:8926200,stock:'¡ULTIMAS UNIDADES!',marca:'MSI',codigo:'912-V530-237',garantia:'180 días'},
-      {categoria_nombre:'Notebooks',nombre:'Notebook Asus Rog Strix G16 Rtx 4080',precio:3432000,stock:'STOCK ALTO EN LA WEB',marca:'ASUS',codigo:'G614JZR',garantia:'365 días'},
-      {categoria_nombre:'Computadoras',nombre:'Pc Armada Intel I9 + Rtx 4090 64gb',precio:2800000,stock:'¡ULTIMAS UNIDADES!',marca:'MAXIMUS',codigo:'PC-I9-RTX4090',garantia:'180 días'},
-      {categoria_nombre:'Monitores Gaming',nombre:'Monitor Asus Rog Swift 4k 144hz 27',precio:980000,stock:'STOCK ALTO EN LA WEB',marca:'ASUS',codigo:'PG27UCDM',garantia:'365 días'},
-    ];
-    document.getElementById('sd').textContent='DEMO';
-    document.getElementById('plive').textContent='DATOS DEMO';
-  }
-  buildFilters();
-  render();
-}
-
-const F=()=>ACT==='all'?DATA:DATA.filter(p=>p.categoria_nombre===ACT);
-const WP=arr=>arr.filter(p=>p.precio&&p.precio<5_000_000);
-const avg=arr=>arr.length?arr.reduce((a,b)=>a+b,0)/arr.length:0;
-const fmt=n=>n>=1000000?'$'+(n/1000000).toFixed(1)+'M':n>=1000?'$'+Math.round(n/1000)+'K':'$'+Math.round(n);
-const fmtF=n=>'$'+Math.round(n).toLocaleString('es-AR');
-const cats=()=>[...new Set(DATA.map(p=>p.categoria_nombre))].sort();
-const cnt=(arr,k)=>arr.reduce((a,x)=>{const v=x[k]||'—';a[v]=(a[v]||0)+1;return a},{});
-const dc=id=>{if(CH[id]){CH[id].destroy();delete CH[id];}};
-
-function stk(s){
-  if(!s) return '<span class="tag td">—</span>';
-  if(s.includes('ALTO')) return `<span class="tag tg">Stock Alto</span>`;
-  if(s.includes('ULTIMAS')) return `<span class="tag td">${s.slice(0,16)}</span>`;
-  if(s.includes('EN STOCK')) return `<span class="tag tg">En Stock</span>`;
-  return `<span class="tag td">${s.slice(0,18)}</span>`;
-}
-
-function render(){
-  const f=F(), fp=WP(f), prices=fp.map(p=>p.precio);
-  const allM=new Set(DATA.filter(p=>p.marca).map(p=>p.marca));
-
-  // Header
-  document.getElementById('h1').textContent=DATA.length;
-  document.getElementById('h2').textContent=cats().length;
-  document.getElementById('h3').textContent=allM.size;
-
-  // KPIs
-  document.getElementById('k1').textContent=f.length.toLocaleString('es-AR');
-  document.getElementById('k1s').textContent=cats().length+' categorías activas';
-  if(prices.length){
-    document.getElementById('k2').textContent=fmt(avg(prices));
-    const mx=Math.max(...prices), mxp=fp.find(p=>p.precio===mx);
-    document.getElementById('k3').textContent=fmt(mx);
-    document.getElementById('k3s').textContent=(mxp?.nombre||'').slice(0,40)+'…';
-  }
-  const mF=new Set(f.filter(p=>p.marca).map(p=>p.marca));
-  document.getElementById('k5').textContent=mF.size;
-  const topM=Object.entries(cnt(f.filter(p=>p.marca),'marca')).sort((a,b)=>b[1]-a[1])[0];
-  if(topM) document.getElementById('k5s').textContent='top: '+topM[0]+' ('+topM[1]+')';
-
-  // Alertas
-
-  // Chart cats
-  const cc=cnt(f,'categoria_nombre');
-  const sc=Object.entries(cc).sort((a,b)=>b[1]-a[1]);
-  document.getElementById('lc').textContent=sc.length+' categorías';
-  dc('cCat');
-  CH.cCat=new Chart(document.getElementById('cCat'),{type:'bar',data:{labels:sc.map(x=>x[0]),datasets:[{data:sc.map(x=>x[1]),backgroundColor:sc.map((_,i)=>P[i%P.length]+'99'),borderColor:sc.map((_,i)=>P[i%P.length]),borderWidth:1,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{maxRotation:40,font:{size:11}}},y:{grid:{color:'rgba(255,255,255,.04)'},beginAtZero:true}}}});
-
-  // Chart stock
-  const sk=cnt(f,'stock');
-  const skC={'STOCK ALTO EN LA WEB':'#00ff88','¡ULTIMAS UNIDADES!':'#ffd60a','EN STOCK':'#3d9eff','—':'#4a5568'};
-  dc('cStock');
-  CH.cStock=new Chart(document.getElementById('cStock'),{type:'doughnut',data:{labels:Object.keys(sk),datasets:[{data:Object.values(sk),backgroundColor:Object.keys(sk).map(k=>(skC[k]||'#888')+'cc'),borderColor:'#0d1117',borderWidth:3}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{position:'bottom',labels:{font:{size:11},boxWidth:10,padding:10,color:'#dde3ed'}}}}});
-
-  // Chart marcas
-  const mc=cnt(f.filter(p=>p.marca),'marca');
-  const tm=Object.entries(mc).sort((a,b)=>b[1]-a[1]).slice(0,12);
-  document.getElementById('lm').textContent=Object.keys(mc).length+' marcas';
-  dc('cMarcas');
-  CH.cMarcas=new Chart(document.getElementById('cMarcas'),{type:'bar',data:{labels:tm.map(x=>x[0]),datasets:[{data:tm.map(x=>x[1]),backgroundColor:'#3d9eff44',borderColor:'#3d9eff',borderWidth:1,borderRadius:3}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},beginAtZero:true},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{font:{size:11}}}}}});
-
-  // Chart avg precio por cat
-  const catA={};
-  cats().forEach(c=>{const ps=WP(DATA.filter(p=>p.categoria_nombre===c)).map(p=>p.precio);if(ps.length)catA[c]=Math.round(avg(ps));});
-  const sa=Object.entries(catA).sort((a,b)=>b[1]-a[1]);
-  dc('cAvg');
-  CH.cAvg=new Chart(document.getElementById('cAvg'),{type:'bar',data:{labels:sa.map(x=>x[0]),datasets:[{data:sa.map(x=>x[1]),backgroundColor:'#3d9eff33',borderColor:'#3d9eff',borderWidth:1,borderRadius:3}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>fmtF(ctx.raw)}}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{callback:v=>fmt(v),font:{size:10}}},y:{grid:{color:'rgba(255,255,255,.04)'},ticks:{font:{size:11}}}}}});
-
-  // Histograma
-  if(fp.length>2){
-    const mn=Math.min(...prices),mx2=Math.max(...prices),BINS=8,step=(mx2-mn)/BINS;
-    const bk=Array(BINS).fill(0),ll=[];
-    for(let i=0;i<BINS;i++)ll.push(fmt(mn+i*step));
-    prices.forEach(p=>{let b=Math.min(Math.floor((p-mn)/step),BINS-1);bk[b]++;});
-    dc('cHisto');
-    CH.cHisto=new Chart(document.getElementById('cHisto'),{type:'bar',data:{labels:ll,datasets:[{data:bk,backgroundColor:'#ffd60a44',borderColor:'#ffd60a',borderWidth:1,borderRadius:3}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false}},scales:{x:{grid:{color:'rgba(255,255,255,.04)'},ticks:{maxRotation:35,font:{size:10}}},y:{grid:{color:'rgba(255,255,255,.04)'},beginAtZero:true}}}});
-  }
-
-  // Mini bars marca avg
-  const maA={};
-  [...new Set(DATA.filter(p=>p.marca).map(p=>p.marca))].forEach(m=>{
-    const ps=WP(DATA.filter(p=>p.marca===m)).map(p=>p.precio);
-    if(ps.length>=2)maA[m]=Math.round(avg(ps));
-  });
-  const sma=Object.entries(maA).sort((a,b)=>b[1]-a[1]).slice(0,12);
-  const mxMA=sma[0]?.[1]||1;
-  document.getElementById('mbar').innerHTML=sma.map(([m,v])=>{
-    const pct=(v/mxMA*100).toFixed(1);
-    const col=v>mxMA*.7?'var(--accent2)':v>mxMA*.4?'var(--accent3)':'var(--accent)';
-    return `<div class="mb"><div class="mb-l" title="${m}">${m}</div><div class="mb-t"><div class="mb-f" style="width:${pct}%;background:${col}"></div></div><div class="mb-v">${fmt(v)}</div></div>`;
-  }).join('');
-
-  // Tabla
-  const t25=[...fp].sort((a,b)=>b.precio-a.precio).slice(0,25);
-  const catL=cats();
-  const tagCols=['tg','tb','ty','tr','td'];
-  document.getElementById('ltbl').textContent=ACT==='all'?'todas las categorías':ACT;
-  document.getElementById('tbl').innerHTML=t25.map((p,i)=>`
-    <tr>
-      <td class="tm" style="color:var(--muted)">${i+1}</td>
-      <td><a href="${p.url||'#'}" target="_blank" style="color:var(--text);text-decoration:none">${p.nombre.slice(0,55)}${p.nombre.length>55?'…':''}</a></td>
-      <td><span class="tag ${tagCols[catL.indexOf(p.categoria_nombre)%tagCols.length]}">${p.categoria_nombre}</span></td>
-      <td style="color:var(--muted);font-size:12px">${p.marca||'—'}</td>
-      <td class="tm" style="color:var(--accent)">${fmtF(p.precio)}</td>
-      <td class="tm" style="color:var(--muted);font-size:11px">${p.codigo||'—'}</td>
-      <td>${stk(p.stock)}</td>
-      <td style="color:var(--muted);font-size:12px">${p.garantia||'—'}</td>
-    </tr>`).join('');
-}
-
-function buildFilters(){
-  const bar=document.querySelector('.fbar');
-  cats().forEach(c=>{
-    const b=document.createElement('button');
-    b.className='fbtn';b.dataset.cat=c;b.textContent=c;
-    b.addEventListener('click',()=>{ACT=c;upBtns();render();});
-    bar.appendChild(b);
-  });
-  document.querySelector('[data-cat="all"]').addEventListener('click',()=>{ACT='all';upBtns();render();});
-}
-function upBtns(){document.querySelectorAll('.fbtn').forEach(b=>b.classList.toggle('active',b.dataset.cat===ACT));}
-
-load();
-</script>
 </body>
 </html>

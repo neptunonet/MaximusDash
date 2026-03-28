@@ -12,9 +12,11 @@ Dos módulos: análisis del catálogo de productos + comportamiento de tráfico 
 Un centro de análisis con dos dashboards interactivos que corren directo en el browser, sin servidor, sin base de datos expuesta. Todo estático en GitHub Pages.
 
 ### 📦 Dashboard de Catálogo
+
 Análisis completo del catálogo público de maximus.com.ar.
 
 ### 📊 Dashboard de Analytics
+
 Análisis de comportamiento de usuarios — últimos 90 días de datos reales de Google Analytics 4.
 
 ---
@@ -22,6 +24,7 @@ Análisis de comportamiento de usuarios — últimos 90 días de datos reales de
 ## De dónde salen los datos
 
 ### Catálogo — Web Scraping
+
 Un script en Python para recorrer el sitio de forma sistemática:
 
 - Recorre las 15 categorías activas página por página
@@ -32,6 +35,7 @@ Un script en Python para recorrer el sitio de forma sistemática:
 **Resultado:** 586 productos scrapeados, 0 errores, 0 categorías vacías.
 
 ### Tráfico — Google Analytics 4 API
+
 Un script en Python conectado a la **GA4 Data API** via OAuth con la cuenta autorizada. Baja 90 días de datos reales:
 
 - Sesiones por día
@@ -45,6 +49,7 @@ Un script en Python conectado a la **GA4 Data API** via OAuth con la cuenta auto
 ## Qué se analizó
 
 ### Catálogo
+
 - **586 productos** distribuidos en 15 categorías
 - **Precio promedio** del catálogo: ~$354.000 ARS
 - **Precio más alto:** RTX 5090 MSI — $8.926.200 ARS
@@ -53,7 +58,9 @@ Un script en Python conectado a la **GA4 Data API** via OAuth con la cuenta auto
 - Distribución de precios, rankings por categoría y marca, tabla de top 25 productos
 
 ### Tráfico Web (últimos 90 días)
+
 | Métrica | Valor |
+
 |---|---|
 | Sesiones totales | 1.103.550 |
 | Usuarios activos | 803.521 |
@@ -63,6 +70,7 @@ Un script en Python conectado a la **GA4 Data API** via OAuth con la cuenta auto
 | Tasa de rebote | 23.1% |
 
 **Highlights:**
+
 - **58% del tráfico es mobile** — Android domina con el 45% del total
 - **Google Ads (CPC)** es la principal fuente: 41% del tráfico (450K sesiones)
 - **Google Orgánico** representa el 17% — buen posicionamiento SEO
