@@ -27,7 +27,7 @@ Un script en Python para recorrer el sitio de forma sistemática:
 - Recorre las 15 categorías activas página por página
 - Entra al detalle de cada producto individualmente
 - Extrae: nombre, precio, marca, código SKU, stock, garantía, URL, imagen
-- Guarda en SQLite (`maximus.db`) + exporta a JSON y CSV
+- Guarda en SQLite + exporta a JSON y CSV
 
 **Resultado:** 586 productos scrapeados, 0 errores, 0 categorías vacías.
 
