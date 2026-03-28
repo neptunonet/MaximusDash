@@ -1,7 +1,3 @@
-# Datos reales (privados)
-data/products.json
-data/analytics_data.json
-
 # Archivos del sistema
 .DS_Store
 Thumbs.db
