@@ -66,9 +66,6 @@ main{padding:28px 48px;display:grid;grid-template-columns:repeat(12,1fr);gap:18p
 canvas{max-height:260px}
 
 /* ALERTAS */
-.abox{background:rgba(255,61,90,.07);border:1px solid rgba(255,61,90,.2);border-radius:3px;padding:11px 14px;margin-bottom:10px;font-size:13px;display:flex;gap:10px}
-.abox:last-child{margin-bottom:0}
-.aico{color:var(--accent2);flex-shrink:0}
 
 /* TABLA */
 .tw{overflow-x:auto}
@@ -98,7 +95,6 @@ footer{text-align:center;padding:22px;color:var(--muted);font-size:11px;font-fam
     <div class="hs"><div class="hs-v" id="h1" style="color:var(--accent)">—</div><div class="hs-l">Productos</div></div>
     <div class="hs"><div class="hs-v" id="h2" style="color:var(--blue)">—</div><div class="hs-l">Categorías</div></div>
     <div class="hs"><div class="hs-v" id="h3" style="color:var(--accent3)">—</div><div class="hs-l">Marcas</div></div>
-    <div class="hs"><div class="hs-v" id="h4" style="color:var(--accent2)">—</div><div class="hs-l">Últ. Unidades</div></div>
   </div>
   <div class="pill-live" id="plive">CARGANDO…</div>
 </header>
@@ -110,13 +106,9 @@ footer{text-align:center;padding:22px;color:var(--muted);font-size:11px;font-fam
     <div class="card green"><div class="ctitle">Total Productos</div><div class="kv" id="k1">—</div><div class="ks" id="k1s">—</div></div>
     <div class="card blue"><div class="ctitle">Precio Promedio</div><div class="kv" id="k2">—</div><div class="ks">con precio válido</div></div>
     <div class="card yellow"><div class="ctitle">Precio Más Alto</div><div class="kv" id="k3">—</div><div class="ks" id="k3s">—</div></div>
-    <div class="card red"><div class="ctitle">Últimas Unidades</div><div class="kv" id="k4">—</div><div class="ks" id="k4s">—</div></div>
     <div class="card dim"><div class="ctitle">Marcas Distintas</div><div class="kv" id="k5">—</div><div class="ks" id="k5s">—</div></div>
   </div>
 
-  <div class="card c12 red" id="alert-card">
-    <div class="ctitle">⚠ Alertas de Stock</div>
-    <div id="alert-body"></div>
   </div>
 
   <div class="card c7"><div class="ctitle">Productos por Categoría <b id="lc"></b></div><canvas id="cCat"></canvas></div>
@@ -186,7 +178,7 @@ const dc=id=>{if(CH[id]){CH[id].destroy();delete CH[id];}};
 function stk(s){
   if(!s) return '<span class="tag td">—</span>';
   if(s.includes('ALTO')) return `<span class="tag tg">Stock Alto</span>`;
-  if(s.includes('ULTIMAS')) return `<span class="tag ty">Últimas Und.</span>`;
+  if(s.includes('ULTIMAS')) return `<span class="tag td">${s.slice(0,16)}</span>`;
   if(s.includes('EN STOCK')) return `<span class="tag tg">En Stock</span>`;
   return `<span class="tag td">${s.slice(0,18)}</span>`;
 }
@@ -194,13 +186,11 @@ function stk(s){
 function render(){
   const f=F(), fp=WP(f), prices=fp.map(p=>p.precio);
   const allM=new Set(DATA.filter(p=>p.marca).map(p=>p.marca));
-  const ult=DATA.filter(p=>p.stock?.includes('ULTIMAS'));
 
   // Header
   document.getElementById('h1').textContent=DATA.length;
   document.getElementById('h2').textContent=cats().length;
   document.getElementById('h3').textContent=allM.size;
-  document.getElementById('h4').textContent=ult.length;
 
   // KPIs
   document.getElementById('k1').textContent=f.length.toLocaleString('es-AR');
@@ -211,23 +201,12 @@ function render(){
     document.getElementById('k3').textContent=fmt(mx);
     document.getElementById('k3s').textContent=(mxp?.nombre||'').slice(0,40)+'…';
   }
-  const ultF=f.filter(p=>p.stock?.includes('ULTIMAS'));
-  document.getElementById('k4').textContent=ultF.length;
-  document.getElementById('k4s').textContent=f.length?Math.round(ultF.length/f.length*100)+'% del catálogo':'—';
   const mF=new Set(f.filter(p=>p.marca).map(p=>p.marca));
   document.getElementById('k5').textContent=mF.size;
   const topM=Object.entries(cnt(f.filter(p=>p.marca),'marca')).sort((a,b)=>b[1]-a[1])[0];
   if(topM) document.getElementById('k5s').textContent='top: '+topM[0]+' ('+topM[1]+')';
 
   // Alertas
-  const catU={};
-  f.forEach(p=>{if(p.stock?.includes('ULTIMAS')) catU[p.categoria_nombre]=(catU[p.categoria_nombre]||0)+1;});
-  const sortU=Object.entries(catU).sort((a,b)=>b[1]-a[1]);
-  const ab=document.getElementById('alert-body');
-  if(sortU.length){
-    document.getElementById('alert-card').style.display='';
-    ab.innerHTML=sortU.map(([c,n])=>`<div class="abox"><span class="aico">▲</span><div><strong>${c}</strong>: <strong>${n} productos</strong> en "Últimas Unidades" — riesgo de quiebre de stock.</div></div>`).join('');
-  } else { document.getElementById('alert-card').style.display='none'; }
 
   // Chart cats
   const cc=cnt(f,'categoria_nombre');
